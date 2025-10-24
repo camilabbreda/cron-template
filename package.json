@@ -1,0 +1,29 @@
+{
+  "name": "cron_template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.12.2",
+    "node-cron": "^4.2.1"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/jest": "^30.0.0",
+    "dotenv": "^17.2.3",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.5"
+  }
+}

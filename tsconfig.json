@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",                      // Target moderno para Node 22
+    "module": "CommonJS",                     // Node usa CommonJS
+    "lib": ["ES2022"],                        // Bibliotecas de tempo de execução
+    "outDir": "dist",                         // Pasta de saída da build
+    "rootDir": "src",                          // Pasta raiz do código TS
+    "strict": true,                            // Ativa verificações estritas
+    "moduleResolution": "node",               // Resolve módulos como Node
+    "esModuleInterop": true,                  // Permite import/export de módulos comuns
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,                      // Ignora checagem de libs externas
+    "resolveJsonModule": true,                // Permite importar JSON
+    "types": ["node", "jest"],                // Tipos globais do Node e Jest
+    "allowJs": false
+  },
+  "include": ["src/**/*.ts"],                // Inclui todos os TS em src
+  "exclude": ["node_modules", "dist"]        // Exclui node_modules e dist
+}
