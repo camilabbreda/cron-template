@@ -2,12 +2,13 @@ import { processInvoice } from "../services/invoice-service";
 import ApiCogni from "../repositories/api-cogni";
 import { Invoice, InvoiceJsonResponse } from "../types/cogni-type";
 import * as dateUtils from "../utils/date-utils";
+import { ServiceError } from "../types/error-types";
 
 jest.mock("../repositories/api-cogni");
 
 describe("processInvoice", () => {
   let mockApi: jest.Mocked<ApiCogni>;
-
+  const errorList: ServiceError[] = []
   beforeEach(() => {
     mockApi = new ApiCogni() as jest.Mocked<ApiCogni>;
   });
@@ -34,7 +35,7 @@ describe("processInvoice", () => {
 
     jest.useFakeTimers({ now: new Date("2025-10-20 00:00:000.00") });
     jest.spyOn(dateUtils, "getYearMonth").mockReturnValue("2025-10");
-    const result = await processInvoice(mockApi, "UC123");
+    const result = await processInvoice(mockApi, "UC123", errorList);
     expect(result).toEqual([
       {
         action: "NA 300 Primeiro boleto",
@@ -60,7 +61,7 @@ describe("processInvoice", () => {
 
     jest.useFakeTimers({ now: new Date("2025-10-20 00:00:000.00") });
     jest.spyOn(dateUtils, "getYearMonth").mockReturnValue("2025-10");
-    const result = await processInvoice(mockApi, "UC123");
+    const result = await processInvoice(mockApi, "UC123", errorList);
     expect(result).not.toEqual([
       {
         action: "NA 300 Primeiro boleto",
@@ -93,7 +94,7 @@ describe("processInvoice", () => {
       invoice_status: 3,
       invoice_due_date: "2025-10-20  00:00:00",
       invoice_emission_date: "2025-09-18  00:00:00",
-      invoice_json_response: {}as InvoiceJsonResponse,
+      invoice_json_response: {} as InvoiceJsonResponse,
       value: 200,
       invoice_save_s3_html: "",
     };
@@ -119,7 +120,7 @@ describe("processInvoice", () => {
       totalPages: 1,
     });
 
-    const result = await processInvoice(mockApi, "UC123");
+    const result = await processInvoice(mockApi, "UC123", errorList);
     expect(result).toEqual([
       {
         action: null,
@@ -187,7 +188,7 @@ describe("processInvoice", () => {
       totalPages: 1,
     });
 
-    const result = await processInvoice(mockApi, "UC123");
+    const result = await processInvoice(mockApi, "UC123", errorList);
     expect(result).toEqual([
       {
         action: null,
@@ -250,7 +251,7 @@ describe("processInvoice", () => {
       totalPages: 1,
     });
 
-    const result = await processInvoice(mockApi, "UC123");
+    const result = await processInvoice(mockApi, "UC123", errorList);
     expect(result).toEqual([
       {
         action: "NA 600 Envio de boleto",
@@ -313,7 +314,7 @@ describe("processInvoice", () => {
       totalPages: 1,
     });
 
-    const result = await processInvoice(mockApi, "UC123");
+    const result = await processInvoice(mockApi, "UC123", errorList);
     expect(result).toEqual([
       {
         action: "NA 700 Envio de boleto",
@@ -336,7 +337,7 @@ describe("processInvoice", () => {
       totalPages: 1,
     });
 
-    const result = await processInvoice(mockApi, "UC123");
+    const result = await processInvoice(mockApi, "UC123", errorList);
     expect(result).toEqual([{ action: null, doc: null }, { action: null, doc: null }, { action: null, doc: null }]);
   });
 
@@ -359,7 +360,8 @@ describe("processInvoice", () => {
       totalPages: 1,
     });
 
-    const result = await processInvoice(mockApi, "UC123");
+
+    const result = await processInvoice(mockApi, "UC123", errorList);
     expect(result).toEqual([{ action: null, doc: null }]);
   });
 });

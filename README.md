@@ -90,6 +90,7 @@ TEMPLATE_NA700_STATEID=<na700-state-id>
 | --------------- | ------------------------------------------------ |
 | `npm run dev`   | Run in development mode (TypeScript via ts-node) |
 | `npm run build` | Compile TypeScript → JavaScript (`dist/`)        |
+| `npm run lint`  | Run ESLint for code linting and style consistency|
 | `npm start`     | Run compiled project (`node dist/index.js`)      |
 | `npm test`      | Run Jest unit tests                              |
 ```
@@ -134,6 +135,8 @@ src/__test__/
 - node-cron for scheduling
 
 - dotenv for environment configuration
+
+- ESLint for code linting and style consistency
 
 ## 🧑‍💻 Development Notes
 

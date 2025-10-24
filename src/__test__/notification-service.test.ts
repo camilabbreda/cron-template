@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import ApiCogni from "../repositories/api-cogni";
 import ApiBlip from "../repositories/api-blip";
 import * as invoiceService from "../services/invoice-service";

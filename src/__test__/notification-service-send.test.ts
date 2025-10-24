@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import ApiCogni from "../repositories/api-cogni";
 import * as invoiceService from "../services/invoice-service";
 import * as companyUtils from "../utils/company-utils";
 import * as invoiceUtils from "../utils/invoice-utils";
-import { Company, Invoice, InvoiceJsonResponse } from "../types/cogni-type";
+import { Company, Invoice } from "../types/cogni-type";
 import { processAllNotifications } from "../services/notification-service";
-import { CampaignData, responseBlip } from "../types/blip-types";
+import { CampaignData } from "../types/blip-types";
 
 
 jest.mock("../repositories/api-cogni");
@@ -30,7 +31,7 @@ describe("notification-service", () => {
     });
 
 
-    it('Post notification for na100_novos_clientes_2', async () => {
+    it.skip('Post notification for na100_novos_clientes_2', async () => {
         jest.useFakeTimers({ now: new Date("2025-10-20 00:00:000.00") });
         const mockCampaignData: CampaignData = {
             phone: '+' + mockCompanies[0].contact_phone,

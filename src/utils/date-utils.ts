@@ -59,11 +59,11 @@ export function expirationDatePlusDays(dateInput: string, numberOfDayCount: numb
   }
 
   const sunday = new Date(today);
-  sunday.setDate(today.getDate() + (weekDayNumber = 1 ? - 1 : + 2));
+  sunday.setDate(today.getDate() + (weekDayNumber === 1 ? - 1 : + 2));
   sunday.setHours(0, 0, 0, 0);
 
   const saturday = new Date(today);
-  saturday.setDate(today.getDate() + (weekDayNumber = 1 ? - 2 : + 1));
+  saturday.setDate(today.getDate() + (weekDayNumber === 1 ? - 2 : + 1));
   saturday.setHours(0, 0, 0, 0);
 
   const isExpiredPlusDaysOnWeeked = (saturday.getTime() === dateValidation.getTime()) || (sunday.getTime() === dateValidation.getTime())

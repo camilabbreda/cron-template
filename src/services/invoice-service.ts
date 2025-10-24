@@ -1,8 +1,10 @@
 import ApiCogni from "../repositories/api-cogni"
+import { ServiceError } from "../types/error-types"
 import { NotificationProcess } from "../types/notification-types"
 import { getYearMonth, isDueTodayOrNextWeekend, expirationDatePlusDays, actualAndPreviousMonth } from "../utils/date-utils"
+import { handleServiceError } from "../utils/error-handler"
 
-export async function processInvoice(apiCogni: ApiCogni, uc_number: string): Promise<NotificationProcess[]> {
+export async function processInvoice(apiCogni: ApiCogni, uc_number: string, errorList: ServiceError[]): Promise<NotificationProcess[]> {
     const messagingProcess: NotificationProcess[] = []
     //VERIFICA PRIMEIRO BOLETO DO CLIENTE
     const firstInvoice = []
@@ -26,7 +28,9 @@ export async function processInvoice(apiCogni: ApiCogni, uc_number: string): Pro
                     })
 
                 } catch (error) {
-                    console.error('NA 300 Primeiro boleto', error)
+                    const err = handleServiceError(error, "first invoice process")
+                    errorList.push(err)
+                    console.error(err)
                 }
             }
         }
@@ -41,8 +45,14 @@ export async function processInvoice(apiCogni: ApiCogni, uc_number: string): Pro
     if (actualAndPreviousMonths.length === 0) return [{ action: null, doc: null }]
 
     for (const monthYear of actualAndPreviousMonths) {
-        const notification = await processNewIssuedInvoices(apiCogni, uc_number, monthYear)
-        messagingProcess.push(...notification)
+        try {
+            const notification = await processNewIssuedInvoices(apiCogni, uc_number, monthYear)
+            messagingProcess.push(...notification)
+        } catch (error) {
+            const err = handleServiceError(error, "general invoices process")
+            errorList.push(err)
+            console.error(err)
+        }
     }
 
     return messagingProcess

@@ -93,6 +93,7 @@ TEMPLATE_NA700_STATEID=<na700-state-id>
 | --------------- | -------------------------------------------------------- |
 | `npm run dev`   | Executa em modo desenvolvimento (TypeScript via ts-node) |
 | `npm run build` | Compila TypeScript → JavaScript (`dist/`)                |
+| `npm run lint`  | Executaa ESLint consistencia de código e estilo          |
 | `npm start`     | Executa o projeto compilado (`node dist/index.js`)       |
 | `npm test`      | Executa os testes unitários com Jest                     |
 ```
@@ -140,6 +141,9 @@ Node.js v22.20.0
 - node-cron para agendamento
 
 - dotenv para configuração de variáveis de ambiente
+
+- ESLint para consistencia de código e estilo
+
 
 ## 🧑‍💻 Notas de Desenvolvimento
 

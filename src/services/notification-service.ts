@@ -6,18 +6,23 @@ import { blipNotificationData } from '../utils/notification-utils';
 import ApiBlip from '../repositories/api-blip';
 import { processInvoice } from './invoice-service';
 import { extractInvoiceData } from '../utils/invoice-utils';
-import { CampaignData } from '../types/blip-types';
+import { CampaignData, responseBlip } from '../types/blip-types';
+import { handleServiceError } from '../utils/error-handler';
+import { ServiceError } from '../types/error-types';
 
 
 
 export async function processAllNotifications() {
+  const errorList: ServiceError[] = []
+  const successList: { campaignData: CampaignData, blipResponse: responseBlip }[] = []
+  let notificationQuantity = 0
   try {
-    console.log({ message: "start  of cron blip active notification execution", date: new Date() })
+    console.log({
+      message: "[Blip Notification] Starting cron job for active notification execution",
+      timestamp: new Date().toISOString(),
+    });
     const apiCogni = new ApiCogni()
     const apiBlip = new ApiBlip()
-    const errorList = []
-    const successList: any = []
-    let notificationQuantity = 0
     let maxPages = 5
     for (let pageNumber = 0; pageNumber < maxPages; pageNumber++) {
       try {
@@ -36,47 +41,55 @@ export async function processAllNotifications() {
 
             const verifyFirstClientsNotifications = verifyNewClient(company)
             notificationData.push(verifyFirstClientsNotifications)
-            const verifyInvoiceNotifications = await processInvoice(apiCogni, company.uc_number)
+            const verifyInvoiceNotifications = await processInvoice(apiCogni, company.uc_number, errorList)
             notificationData.push(...verifyInvoiceNotifications)
             const notificationsList = notificationData.filter(not => not.action).filter(Boolean)
             if (notificationsList.length === 0) {
               continue;
             }
+
             for (const notification of notificationsList) {
               try {
-
                 const invoiceData = extractInvoiceData(notification.doc)
                 if (!(invoiceData && invoiceData?.dataVencimento && invoiceData?.valor) && !(notification.action === 'NA 100 Novos clientes' || notification.action === 'NA 200 Usina ativação')) continue
-                
+
                 const campaignData = blipNotificationData(notification, company, invoiceData)
                 if (!campaignData) continue
 
                 const blipResponse = await apiBlip.postWhatsappNotificationMessage(campaignData as CampaignData)
-                if(blipResponse?.status !== "success"){
-                   errorList.push({ errorType: 'companies pages', data: blipResponse })
+                if (blipResponse?.status !== "success") {
+                  errorList.push({ context: "blip notification failure", message: 'blip notification failure', type: "GeneralError", data: blipResponse })
                 }
                 successList.push({ campaignData, blipResponse })
                 notificationQuantity += 1
               } catch (error) {
-                errorList.push({ errorType: 'send notification', data: notification, error })
-                console.error("send notification:", notification);
+                const err = handleServiceError(error, "send notification")
+                errorList.push(err)
+                console.error(err)
               }
             }
           } catch (error) {
-            errorList.push({ errorType: 'process invoice notification', data: company, error })
-            console.error('company error', error)
+            const err = handleServiceError(error, "process invoice notification")
+            errorList.push(err)
+            console.error(err)
           }
         }
       } catch (error) {
-        errorList.push({ errorType: 'companies pages', data: pageNumber, error })
-        console.error('page company', pageNumber)
+        const err = handleServiceError(error, "load companies page")
+        errorList.push(err)
+        console.error(err)
       }
     }
-    console.log({ message: "end of cron blip active notification execution", date: new Date() })
-    return { errorList, successList, notificationQuantity }
+    console.log({
+      message: "[Blip Notification] Finished cron job for active notification execution",
+      timestamp: new Date().toISOString(),
+    });
   } catch (error) {
-    console.error('Error processing notifications:', error);
+    const err = handleServiceError(error, "load companies page")
+    errorList.push(err)
+    console.error(err);
   }
+  return { errorList, successList, notificationQuantity }
 }
 
 

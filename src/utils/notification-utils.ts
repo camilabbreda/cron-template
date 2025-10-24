@@ -104,8 +104,6 @@ export function blipNotificationData(notification: NotificationProcess, company:
       return campaignData
     }
     default:
-      console.log("switch default")
-      break;
+      throw new Error("No campaign registered for this action: " + notification.action)
   }
-  return null
 }
