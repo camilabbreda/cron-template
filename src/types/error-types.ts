@@ -9,4 +9,5 @@ export interface ServiceError {
   url?: string;
   data?: unknown;
   stack?: string;
+  ucNumber?:string
 }

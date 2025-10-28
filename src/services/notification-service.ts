@@ -14,7 +14,7 @@ import { ServiceError } from '../types/error-types';
 
 export async function processAllNotifications() {
   const errorList: ServiceError[] = []
-  const successList: { campaignData: CampaignData, blipResponse: responseBlip }[] = []
+  const successList: { campaignData: CampaignData, blipResponse: responseBlip, ucNumber: string }[] = []
   let notificationQuantity = 0
   try {
     console.log({
@@ -60,16 +60,16 @@ export async function processAllNotifications() {
                 if (blipResponse?.status !== "success") {
                   errorList.push({ context: "blip notification failure", message: 'blip notification failure', type: "GeneralError", data: blipResponse })
                 }
-                successList.push({ campaignData, blipResponse })
+                successList.push({ campaignData, blipResponse, ucNumber: company.uc_number })
                 notificationQuantity += 1
               } catch (error) {
-                const err = handleServiceError(error, "send notification")
+                const err = handleServiceError(error, "send notification", company.uc_number)
                 errorList.push(err)
                 console.error(err)
               }
             }
           } catch (error) {
-            const err = handleServiceError(error, "process invoice notification")
+            const err = handleServiceError(error, "process invoice notification", company.uc_number)
             errorList.push(err)
             console.error(err)
           }

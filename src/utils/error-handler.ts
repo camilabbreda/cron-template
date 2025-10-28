@@ -2,7 +2,7 @@
 import axios, { AxiosError } from "axios";
 import { ServiceError } from "../types/error-types";
 
-export function handleServiceError(error: any, context: string): ServiceError {
+export function handleServiceError(error: any, context: string, ucNumber:string= ''): ServiceError {
     if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
         const status = axiosError.response?.status;
@@ -14,6 +14,7 @@ export function handleServiceError(error: any, context: string): ServiceError {
             type: "AxiosError",
             context,
             message: axiosError.message,
+            ucNumber,
             status,
             url,
             method,
@@ -25,6 +26,7 @@ export function handleServiceError(error: any, context: string): ServiceError {
         type: "GeneralError",
         context,
         message: error?.message as string|| "Unknown error",
+        ucNumber,
         stack: error?.stack,
     };
 }

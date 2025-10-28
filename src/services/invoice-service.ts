@@ -28,7 +28,7 @@ export async function processInvoice(apiCogni: ApiCogni, uc_number: string, erro
                     })
 
                 } catch (error) {
-                    const err = handleServiceError(error, "first invoice process")
+                    const err = handleServiceError(error, "first invoice process", uc_number)
                     errorList.push(err)
                     console.error(err)
                 }
@@ -49,7 +49,7 @@ export async function processInvoice(apiCogni: ApiCogni, uc_number: string, erro
             const notification = await processNewIssuedInvoices(apiCogni, uc_number, monthYear)
             messagingProcess.push(...notification)
         } catch (error) {
-            const err = handleServiceError(error, "general invoices process")
+            const err = handleServiceError(error, "general invoices process", uc_number)
             errorList.push(err)
             console.error(err)
         }
