@@ -17,19 +17,14 @@ export async function processAllNotifications() {
   const successList: { campaignData: CampaignData, blipResponse: responseBlip, ucNumber: string }[] = []
   let notificationQuantity = 0
   try {
-    console.log({
-      message: "[Blip Notification] Starting cron job for active notification execution",
-      timestamp: new Date().toISOString(),
-    });
+    console.log("[Blip Notification] Starting cron job for active notification execution", new Date().toISOString());
     const apiCogni = new ApiCogni()
     const apiBlip = new ApiBlip()
-    let maxPages = 5
-    for (let pageNumber = 0; pageNumber < maxPages; pageNumber++) {
+    let pageNumber = 0
+    const { totalPages } = await apiCogni.getTotalPages(pageNumber);
+    for (pageNumber; pageNumber < totalPages; pageNumber++) {
       try {
-        const { totalPages, companies } = await apiCogni.getCompanies(pageNumber);
-
-        maxPages = totalPages
-
+        const { companies } = await apiCogni.getCompanies(pageNumber);
         for (const company of companies) {
           try {
             const notificationData: NotificationProcess[] = []
@@ -68,6 +63,7 @@ export async function processAllNotifications() {
                 console.error(err)
               }
             }
+            
           } catch (error) {
             const err = handleServiceError(error, "process invoice notification", company.uc_number)
             errorList.push(err)
@@ -80,10 +76,7 @@ export async function processAllNotifications() {
         console.error(err)
       }
     }
-    console.log({
-      message: "[Blip Notification] Finished cron job for active notification execution",
-      timestamp: new Date().toISOString(),
-    });
+    console.log("[Blip Notification] Finished cron job for active notification execution", new Date().toISOString());
   } catch (error) {
     const err = handleServiceError(error, "load companies page")
     errorList.push(err)

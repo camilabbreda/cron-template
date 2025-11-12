@@ -18,9 +18,14 @@ export default class ApiCogni {
         }
     }
 
-    async getCompanies(page_number: number): Promise<{ companies: Company[], totalPages: number }> {
+    async getCompanies(page_number: number): Promise<{ companies: Company[] }> {
         const response: AxiosResponse<CogniResponse<Company>> = await axios.get(`${this.apiUrl}/invoice/companies`, { headers: this.headers, params: { page_number } });
-        return { companies: response?.data?.registers, totalPages: response?.data?.total_pages }
+        return { companies: response?.data?.registers}
+    }
+
+    async getTotalPages(page_number: number): Promise<{totalPages: number }> {
+        const response: AxiosResponse<CogniResponse<Company>> = await axios.get(`${this.apiUrl}/invoice/companies`, { headers: this.headers, params: { page_number } });
+        return { totalPages: response?.data?.total_pages }
     }
 
     async getInvoice(uc_number: string, referente_month?: string): Promise<{ invoices: Invoice[], totalPages: number }> {

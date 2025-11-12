@@ -43,8 +43,10 @@ describe("notification-service", () => {
         }
 
         jest.spyOn(ApiCogni.prototype, "getCompanies").mockResolvedValueOnce({
-            companies: mockCompanies,
-            totalPages: 1,
+            companies: mockCompanies
+        });
+        jest.spyOn(ApiCogni.prototype, "getTotalPages").mockResolvedValueOnce({
+            totalPages: 1
         });
 
         jest.spyOn(invoiceService, 'processInvoice').mockResolvedValue([{ action: null, doc: null }]);
@@ -72,8 +74,10 @@ describe("notification-service", () => {
             message: { messageParams: null },
         }
         jest.spyOn(ApiCogni.prototype, "getCompanies").mockResolvedValueOnce({
-            companies: mockCompanies,
-            totalPages: 1,
+            companies: mockCompanies
+        });
+        jest.spyOn(ApiCogni.prototype, "getTotalPages").mockResolvedValueOnce({
+            totalPages: 1
         });
         jest.spyOn(companyUtils, 'verifyNewClient').mockReturnValue({ action: "NA 200 Usina ativação", doc: null });
         jest.spyOn(invoiceService, 'processInvoice').mockResolvedValue([{ action: null, doc: null }]);
@@ -118,8 +122,10 @@ describe("notification-service", () => {
             message: { messageParams: ["1"] },
         }
         jest.spyOn(ApiCogni.prototype, "getCompanies").mockResolvedValueOnce({
-            companies: mockCompanies,
-            totalPages: 1,
+            companies: mockCompanies
+        });
+        jest.spyOn(ApiCogni.prototype, "getTotalPages").mockResolvedValueOnce({
+            totalPages: 1
         });
         jest.spyOn(companyUtils, 'verifyNewClient').mockReturnValue({ action: null, doc: null });
 
@@ -164,8 +170,10 @@ describe("notification-service", () => {
             message: { messageParams: ["1", "2"] },
         }
         jest.spyOn(ApiCogni.prototype, "getCompanies").mockResolvedValueOnce({
-            companies: mockCompanies,
-            totalPages: 1,
+            companies: mockCompanies
+        });
+        jest.spyOn(ApiCogni.prototype, "getTotalPages").mockResolvedValueOnce({
+            totalPages: 1
         });
         jest.spyOn(companyUtils, 'verifyNewClient').mockReturnValue({ action: null, doc: null });
         jest.spyOn(invoiceService, 'processInvoice').mockResolvedValue([{ action: 'NA 400 Envio de boleto', doc: invoice }]);
@@ -208,8 +216,10 @@ describe("notification-service", () => {
             message: { messageParams: ["1", "2"] },
         }
         jest.spyOn(ApiCogni.prototype, "getCompanies").mockResolvedValueOnce({
-            companies: mockCompanies,
-            totalPages: 1,
+            companies: mockCompanies
+        });
+        jest.spyOn(ApiCogni.prototype, "getTotalPages").mockResolvedValueOnce({
+            totalPages: 1
         });
 
         jest.spyOn(invoiceService, 'processInvoice').mockResolvedValue([{ action: 'NA 500 Envio de boleto', doc: invoice }]);
@@ -253,8 +263,10 @@ describe("notification-service", () => {
             message: { messageParams: ["1"] },
         }
         jest.spyOn(ApiCogni.prototype, "getCompanies").mockResolvedValueOnce({
-            companies: mockCompanies,
-            totalPages: 1,
+            companies: mockCompanies
+        });
+        jest.spyOn(ApiCogni.prototype, "getTotalPages").mockResolvedValueOnce({
+            totalPages: 1
         });
 
         jest.spyOn(invoiceService, 'processInvoice').mockResolvedValue([{ action: 'NA 600 Envio de boleto', doc: invoice }]);
@@ -297,8 +309,10 @@ describe("notification-service", () => {
             message: { messageParams: null },
         }
         jest.spyOn(ApiCogni.prototype, "getCompanies").mockResolvedValueOnce({
-            companies: mockCompanies,
-            totalPages: 1,
+            companies: mockCompanies
+        });
+        jest.spyOn(ApiCogni.prototype, "getTotalPages").mockResolvedValueOnce({
+            totalPages: 1
         });
 
         jest.spyOn(invoiceService, 'processInvoice').mockResolvedValue([{ action: 'NA 700 Envio de boleto', doc: invoice }]);
