@@ -35,3 +35,5 @@ coverage/
 
 # Temporary files
 *.tsbuildinfo
+*/.copilotignore
+*/copilot-instructions.md
