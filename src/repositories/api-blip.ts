@@ -42,7 +42,7 @@ export default class ApiBlip {
             }
         };
 
-        const response = await axios.post(this.blipUrl, body, { headers: { Authorization: this.auth, 'Content-Type': this.contentType } });
+        const response = await axios.post(`${this.blipUrl}/commands`, {...body}, { headers: { Authorization: this.auth, 'Content-Type': this.contentType } });
         return response.data
     }
 

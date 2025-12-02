@@ -20,3 +20,23 @@ export function extractInvoiceData(doc: Invoice | null): InvoiceData | null {
 }
 
 
+export function obtainSankhyaNotificatioLinkComplement(linkFatura: string): string | null {
+  if (!linkFatura) return null;
+
+  // Regex: capture everything after https://drive.google.com/
+  const regex = /^https?:\/\/drive\.google\.com\/(.+)$/i;
+
+  const match = linkFatura.match(regex);
+  if (!match) return null;
+  if (!match[1]) return null;
+  return match[1]; // "file/d/xxxxx"
+}
+
+export function removeTextFromValue(value: string): string | null {
+  if (!value) return null;
+  if (typeof value !== 'string') return value;
+  // remove "R$ " com ou sem espaços extras
+  const cleanValue = value.replace(/\s*R\$\s*/g, '').trim()
+  if(!cleanValue) return null;
+  return cleanValue;
+}

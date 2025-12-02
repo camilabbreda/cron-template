@@ -17,7 +17,7 @@ export async function processAllNotifications() {
   const successList: { campaignData: CampaignData, blipResponse: responseBlip, ucNumber: string }[] = []
   let notificationQuantity = 0
   try {
-    console.log("[Blip Notification] Starting cron job for active notification execution", new Date().toISOString());
+    console.log("[Cogni Notification] Starting cron job for active notification execution", new Date().toISOString());
     const apiCogni = new ApiCogni()
     const apiBlip = new ApiBlip()
     let pageNumber = 0
@@ -53,7 +53,7 @@ export async function processAllNotifications() {
 
                 const blipResponse = await apiBlip.postWhatsappNotificationMessage(campaignData as CampaignData)
                 if (blipResponse?.status !== "success") {
-                  errorList.push({ context: "blip notification failure", message: 'blip notification failure', type: "GeneralError", data: blipResponse })
+                  errorList.push({ context: "Cogni notification failure", message: 'Cogni notification failure', type: "GeneralError", data: blipResponse })
                 }
                 successList.push({ campaignData, blipResponse, ucNumber: company.uc_number })
                 notificationQuantity += 1
@@ -76,7 +76,7 @@ export async function processAllNotifications() {
         console.error(err)
       }
     }
-    console.log("[Blip Notification] Finished cron job for active notification execution", new Date().toISOString());
+    console.log("[Cogni Notification] Finished cron job for active notification execution", new Date().toISOString());
   } catch (error) {
     const err = handleServiceError(error, "load companies page")
     errorList.push(err)

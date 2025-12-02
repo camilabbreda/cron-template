@@ -12,7 +12,7 @@ export function blipNotificationData(notification: NotificationProcess, company:
         campaignName: `${process.env.TEMPLATE_NA100_NAME}`,
         stateId: `${process.env.TEMPLATE_NA100_STATEID}`,
         templateName: `${process.env.TEMPLATE_NA100_NAME}`,
-        audience: { messageParams: null, },
+        audience: { messageParams: null },
         message: { messageParams: null },
       }
       return campaignData
