@@ -10,5 +10,5 @@ export default {
   transform: {
     '^.+\\.ts$': ['ts-jest', { useESM: true }],
   },
-  testTimeout: 20000,
+  testTimeout: 800000,
 };

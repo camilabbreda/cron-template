@@ -5,13 +5,13 @@
      */
     export default function getMondayLookbackCondition(dateField: string): string {
         return `(
-            (DATENAME(WEEKDAY, GETDATE()) = 'Monday' AND (
+            (DATENAME(WEEKDAY, GETDATE()) = 'Segunda-Feira' AND (
                 CAST(${dateField} AS DATE) = CAST(GETDATE() AS DATE) OR
                 CAST(${dateField} AS DATE) = CAST(DATEADD(DAY, -2, GETDATE()) AS DATE) OR
                 CAST(${dateField} AS DATE) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)
             ))
             OR
-            (DATENAME(WEEKDAY, GETDATE()) <> 'Monday' AND CAST(${dateField} AS DATE) = CAST(GETDATE() AS DATE))
+            (DATENAME(WEEKDAY, GETDATE()) <> 'Segunda-Feira' AND CAST(${dateField} AS DATE) = CAST(GETDATE() AS DATE))
         )`
     }
 
@@ -22,13 +22,13 @@
      */
     export function getFridayLookaheadCondition(dateField: string): string {
         return `(
-            (DATENAME(WEEKDAY, GETDATE()) = 'Friday' AND (
+            (DATENAME(WEEKDAY, GETDATE()) = 'Sexta-Feira' AND (
                 CAST(${dateField} AS DATE) = CAST(GETDATE() AS DATE) OR
                 CAST(${dateField} AS DATE) = CAST(DATEADD(DAY, 1, GETDATE()) AS DATE) OR
                 CAST(${dateField} AS DATE) = CAST(DATEADD(DAY, 2, GETDATE()) AS DATE)
             ))
             OR
-            (DATENAME(WEEKDAY, GETDATE()) <> 'Friday' AND CAST(${dateField} AS DATE) = CAST(GETDATE() AS DATE))
+            (DATENAME(WEEKDAY, GETDATE()) <> 'Sexta-Feira' AND CAST(${dateField} AS DATE) = CAST(GETDATE() AS DATE))
         )`
     }
 
@@ -39,13 +39,13 @@
      */
     export function getMondayLookbackDatediffCondition(fromDateField: string, daysValue: number): string {
         return `(
-            (DATENAME(WEEKDAY, GETDATE()) = 'Monday' AND (
+            (DATENAME(WEEKDAY, GETDATE()) = 'Segunda-Feira' AND (
                 DATEDIFF(DAY, CAST(${fromDateField} AS DATE), CAST(GETDATE() AS DATE)) = ${daysValue} OR
                 DATEDIFF(DAY, CAST(${fromDateField} AS DATE), CAST(DATEADD(DAY, -2, GETDATE()) AS DATE)) = ${daysValue} OR
                 DATEDIFF(DAY, CAST(${fromDateField} AS DATE), CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)) = ${daysValue}
             ))
             OR
-            (DATENAME(WEEKDAY, GETDATE()) <> 'Monday' AND DATEDIFF(DAY, CAST(${fromDateField} AS DATE), CAST(GETDATE() AS DATE)) = ${daysValue})
+            (DATENAME(WEEKDAY, GETDATE()) <> 'Segunda-Feira' AND DATEDIFF(DAY, CAST(${fromDateField} AS DATE), CAST(GETDATE() AS DATE)) = ${daysValue})
         )`
     }
 
@@ -56,12 +56,12 @@
      */
     export function getFridayLookaheadDatediffCondition(fromDateField: string, daysValue: number): string {
         return `(
-            (DATENAME(WEEKDAY, GETDATE()) = 'Friday' AND (
+            (DATENAME(WEEKDAY, GETDATE()) = 'Sexta-Feira' AND (
                 DATEDIFF(DAY, CAST(${fromDateField} AS DATE), CAST(GETDATE() AS DATE)) = ${daysValue} OR
                 DATEDIFF(DAY, CAST(${fromDateField} AS DATE), CAST(DATEADD(DAY, 1, GETDATE()) AS DATE)) = ${daysValue} OR
                 DATEDIFF(DAY, CAST(${fromDateField} AS DATE), CAST(DATEADD(DAY, 2, GETDATE()) AS DATE)) = ${daysValue}
             ))
             OR
-            (DATENAME(WEEKDAY, GETDATE()) <> 'Friday' AND DATEDIFF(DAY, CAST(${fromDateField} AS DATE), CAST(GETDATE() AS DATE)) = ${daysValue})
+            (DATENAME(WEEKDAY, GETDATE()) <> 'Sexta-Feira' AND DATEDIFF(DAY, CAST(${fromDateField} AS DATE), CAST(GETDATE() AS DATE)) = ${daysValue})
         )`
     }

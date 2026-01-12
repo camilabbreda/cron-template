@@ -16,7 +16,7 @@ import {
 import { mapResponseToJson } from "../utils/sankhya-utils"
 import getMondayLookbackCondition, { getFridayLookaheadCondition, getFridayLookaheadDatediffCondition, getMondayLookbackDatediffCondition } from "../helpers/api-sankhya-helper"
 
-export default class ApiCogni {
+export default class ApiSankhya {
     private apiUrl = `${process.env.API_SANKHYA_URL}`
     private headers: tHeaders = {
         token: `${process.env.API_SANKHYA_TOKEN}`,
@@ -30,7 +30,7 @@ export default class ApiCogni {
     
 
     private async auth(): Promise<void> {
-        const response: AxiosResponse<tAuthorization> = await axios.post(`${this.apiUrl}/login`, { headers: this.headers });
+        const response: AxiosResponse<tAuthorization> = await axios.post(`${this.apiUrl}/login`, {},{ headers: this.headers });
         this.headers.Authorization = `Bearer ${response.data.bearerToken}`
     }
 
@@ -237,7 +237,7 @@ export default class ApiCogni {
             fin.NUMREMESSA IS NOT NULL
             AND fin.codnat = 1030000
             AND fin.DHBAIXA IS NULL
-            AND ${getMondayLookbackCondition('fin.DTNEG')}
+            AND ${getMondayLookbackDatediffCondition('fin.DTVENC', -7)} 
         `
         const result: tIssuedInvoice[] = await this.executeQuery(sql);
         return result
