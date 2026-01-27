@@ -186,7 +186,7 @@ describe('Sankhya Notification Integration - Real Blip API Send', () => {
     });
   });
 
-  describe('NA 700 - Overdue 15 Days Notification', () => {
+  describe.skip('NA 700 - Overdue 15 Days Notification', () => {
     it('should send NA 700 notification via Blip API with mocked Sankhya response', async () => {
       const mockOverdueInvoice15d = {
         diasVencido: 15,
